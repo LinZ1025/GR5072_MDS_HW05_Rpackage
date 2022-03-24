@@ -1,11 +1,11 @@
-##### Function 3: Your input for this function should be an individual year. 
+##### Function 3: Your input for this function should be an individual year.
 ####Your function should limit the data for that year to include numeric continuous
-###variables only (not categorical data). Your output should be the correlation matrix 
+###variables only (not categorical data). Your output should be the correlation matrix
 ####for all numeric variables in the data for that year. (Hint: use `cor(data)` to create correlation matrix.
 ###If you feel adventuresome, then you can return a correlogram plot from here instead).`
 
 #' A nbaPlayers Function
-#' 
+#'
 #' This function allows you to generate the correlation matrix for all numeric variables in the data for that year.
 #' @param data  The input dataset
 #' @param year The input value of year
@@ -22,6 +22,7 @@ cor_matrix_plot <- function(data, year){
   df <- subset(data, Year == year)
   df1 <- keep(df, is_numeric)
   #df2 <- (df1 na.rm = TRUE )
-  M <- cor(df1 ) 
-  corrplot(M, method="circle")
+  M <- cor(df1 )
+  M
+
 }
