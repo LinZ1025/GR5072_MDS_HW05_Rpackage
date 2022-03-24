@@ -1,0 +1,63 @@
+---
+title: "hw05_LinZhu"
+always_allow_html: yes
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r}
+library(tidyverse)
+nba <- read_csv("/Users/zhulin/Desktop/hw05/data/raw/Seasons_Stats_NBA.csv")
+```
+
+##### Function 1: Your input for this function should be an individual year. Your output should be a data point of interest in the dataset for some player.
+
+
+```{r}
+data_point_of_interest <- function(data,year){
+  library(tidyverse)
+  library(dplyr)
+  df <- subset(data, Year == year)
+  df1 <- select(df, Year, Player,PTS)
+  df2 <- summarise(group_by(df1, Player), point_of_interest = sum(PTS))
+  df2
+}
+
+head(data_point_of_interest(nba, 1950),10)
+```
+
+##### Function 2: Your input for this function should be an individual year. Your output should be the oldest player in the NBA data for that year (if multiple players have the same age, then decide how to return a single player).
+
+```{r}
+oldest_player <- function(data, year){
+  library(tidyverse)
+  library(dplyr)
+  df <- subset(data, Year == year)
+  df1 <- select(df, Year, Player, Age)
+  df2 <- summarise(group_by(df1, Player),  player_age = max(Age))
+  df3 <- arrange(df2, desc(player_age))
+  df4 <- slice(select(df3, Player),1)
+  df4
+}
+
+oldest_player(nba, 1950)
+```
+
+##### Function 3: Your input for this function should be an individual year. Your function should limit the data for that year to include numeric continuous variables only (not categorical data). Your output should be the correlation matrix for all numeric variables in the data for that year. (Hint: use `cor(data)` to create correlation matrix. If you feel adventuresome, then you can return a correlogram plot from here instead).`
+
+```{r}
+cor_matrix_plot <- function(data, year){
+  library(purrr)
+  library(tidyverse)
+  library(dplyr)
+  library(corrplot)
+  df <- subset(data, Year == year)
+  df1 <- keep(df, is_numeric)
+  #df2 <- (df1 na.rm = TRUE )
+  M <- cor(df1 ) 
+  corrplot(M, method="circle")
+}
+cor_matrix_plot(nba, 1950)
+```
+
